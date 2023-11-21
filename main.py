@@ -30,7 +30,7 @@ def map_column(dataframe: pd.DataFrame, column_name: str):
 df = pd.read_csv(Path('vgsales.csv'))
 print(df.info())
 
-irrelevant_columns = ['Rank', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales', 'Name', 'Global_Sales']
+irrelevant_columns = ['Rank', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales', 'Name', 'Global_Sales', 'Year']
 relevant_columns = ['Platform', 'Genre', 'Publisher']
 
 df.drop(irrelevant_columns, axis=1, inplace=True)
@@ -105,5 +105,7 @@ dbscan_model.fit(df)
 df['Cluster'] = dbscan_model.labels_
 
 fig = go.Figure(data=[go.Scatter3d(x=df[relevant_columns[0]], y=df[relevant_columns[1]], z=df[relevant_columns[2]],
-                                   mode='markers', marker_color=df['Cluster'], marker_size=4)])
+                                   mode='markers', marker={"color": df["Cluster"],
+                                                           "colorscale": 'thermal',
+                                                           "showscale": True})])
 fig.show()
